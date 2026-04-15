@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Vérification du point de contrôle "vuln_smartcard_expire_passwords" sur la sécurisation de l'AD par l'ANSSI.
+    Vérification du point de contrôle "vuln_smartcard_expire_passwords" sur la sécurisation de l'AD par l'ANSSI
 
 .DESCRIPTION
-    Ce script vérifie si l'attribut 'msDS-ExpirePasswordsOnSmartCardOnlyAccounts' est activé sur le domaine.
+    Ce script vérifie si l'attribut 'msDS-ExpirePasswordsOnSmartCardOnlyAccounts' est activé sur le domaine
     Cet attribut permet de forcer l'expiration (et donc le renouvellement auto) des mots de passe des comptes 
     utilisant uniquement la carte à puce (YubiKey).
 
@@ -32,8 +32,7 @@ Write-Host "`n`n#" ("=" * 67) "#`n# Vérification du point de contrôle 'vuln_sm
 # On récupère la valeur de l'attribut msDS-ExpirePasswordsOnSmartCardOnlyAccounts
 $val = (Get-ADObject -Identity $domainDN -Properties "msDS-ExpirePasswordsOnSmartCardOnlyAccounts")."msDS-ExpirePasswordsOnSmartCardOnlyAccounts"
 
-# Traitement des résultats
-# Si la valeur est $null, c'est que l'attribut n'est pas défini (souvent niveau fonctionnel trop bas)
+# Si la valeur est $null, c'est que l'attribut n'est pas défini 
 if ($null -eq $val) { 
     $statusText = "Inexistant/Désactivé"
     $isConform = $false
@@ -45,7 +44,7 @@ if ($null -eq $val) {
 $status = if ($isConform) { "CONFORME" } else { "NON CONFORME" }
 $color  = if ($isConform) { "Green" } else { "Red" }
 
-# Affichage du résultat (Le point est considéré Niveau 1 par l'ANSSI car touche à la racine du domaine)
+# Affichage du résultat 
 Write-Host "[Niveau 1] " -NoNewline -ForegroundColor DarkGray
 Write-Host "$($domainDNS.PadRight(35)) : " -NoNewline
 Write-Host "$status".PadRight(15) -ForegroundColor $Color -NoNewline
